@@ -71,10 +71,12 @@ function goToNextPage(type) {
 
 // Back Button
 function goBack() {
+    console.log("goBack() function called");
     document.querySelectorAll(".next-page").forEach((page) => {
         page.style.display = "none";
     });
     document.querySelector(".countdown-page").style.display = "block";
+    history.pushState(null, null, document.URL);
 }
 
 // Show Wish Message Page
@@ -192,7 +194,7 @@ function checkAnswer(questionNumber) {
     // Add more if statements for other questions
 
     if (answer === correctAnswer) {
-        document.getElementById ('result${questionNumber}').textContent = "Correct! 🎉";
+        document.getElementById(`result${questionNumber}`).textContent = "Correct! 🎉";
         document.getElementById(`result${questionNumber}`).style.color = "green";
     } else {
         document.getElementById(`result${questionNumber}`).textContent = "Incorrect. 😢";
@@ -204,33 +206,58 @@ function checkAnswer(questionNumber) {
 let currentSlide = 0;
 let slider;
 let sliderContainer;
+let dotsContainer;
 
 function initializeSlider() {
     slider = document.querySelector("#photo-gallery-page .slider");
     sliderContainer = document.querySelector("#photo-gallery-page .slider-container");
+    dotsContainer = document.querySelector("#photo-gallery-page .slider-dots");
+
+    // Create dots
+    for (let i = 0; i < slider.children.length; i++) {
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    }
+    updateDots();
 }
 
 function nextSlide() {
-    if (!slider || !sliderContainer) {
-        return;
-    }
-    const slideWidth = sliderContainer.offsetWidth;
     const maxSlide = slider.children.length - 1;
     if (currentSlide < maxSlide) {
         currentSlide++;
-        slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        updateSlider();
     }
 }
 
 function prevSlide() {
-    if (!slider || !sliderContainer) {
-        return;
-    }
-    const slideWidth = sliderContainer.offsetWidth;
     if (currentSlide > 0) {
         currentSlide--;
-        slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        updateSlider();
     }
+}
+
+function goToSlide(slideIndex) {
+    currentSlide = slideIndex;
+    updateSlider();
+}
+
+function updateSlider() {
+    const slideWidth = sliderContainer.offsetWidth;
+    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    updateDots();
+}
+
+function updateDots() {
+    const dots = document.querySelectorAll("#photo-gallery-page .dot");
+    dots.forEach((dot, index) => {
+        if (index === currentSlide) {
+            dot.classList.add("active");
+        } else {
+            dot.classList.remove("active");
+        }
+    });
 }
 
 // Message Wall Logic
@@ -246,23 +273,15 @@ function addMessage() {
     }
 }
 
-// ... (Your existing JavaScript code) ...
-
-// Back Button
-function goBack() {
-    document.querySelectorAll(".next-page").forEach((page) => {
-        page.style.display = "none";
-    });
-    document.querySelector(".countdown-page").style.display = "block";
-    history.pushState(null, null, document.URL); // Add a new history entry
-}
-
-// Listen for history changes
+// History API Handling for Mobile Back Button
 window.addEventListener("popstate", function(event) {
-    if (document.querySelector(".next-page[style*='display: block;']")) { // Check if a next page is visible
+    console.log("popstate event triggered");
+    console.log(event);
+    if (document.querySelector(".next-page[style*='display: block;']")) {
         goBack();
     }
 });
 
-// Initially add a history state to prevent exiting on first back press
-history.pushState(null, null, document.URL);
+document.addEventListener("DOMContentLoaded", function() {
+    history.pushState(null, null, document.URL);
+});
