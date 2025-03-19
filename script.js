@@ -245,3 +245,24 @@ function addMessage() {
         document.getElementById("guestbook-message").value = ""; // Clear input
     }
 }
+
+// ... (Your existing JavaScript code) ...
+
+// Back Button
+function goBack() {
+    document.querySelectorAll(".next-page").forEach((page) => {
+        page.style.display = "none";
+    });
+    document.querySelector(".countdown-page").style.display = "block";
+    history.pushState(null, null, document.URL); // Add a new history entry
+}
+
+// Listen for history changes
+window.addEventListener("popstate", function(event) {
+    if (document.querySelector(".next-page[style*='display: block;']")) { // Check if a next page is visible
+        goBack();
+    }
+});
+
+// Initially add a history state to prevent exiting on first back press
+history.pushState(null, null, document.URL);
