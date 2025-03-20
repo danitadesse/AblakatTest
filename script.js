@@ -6,6 +6,7 @@ function checkPassword() {
         document.querySelector(".countdown-page").style.display = "block";
         startCountdowns();
         createConfetti();
+        initializeSlider(); // Initialize slider here
     } else {
         alert("Incorrect password. Try again!");
     }
@@ -13,7 +14,7 @@ function checkPassword() {
 
 // Countdown Logic
 function startCountdowns() {
-    const birthdayDate = new Date("2024-03-15").getTime(); // Replace with her birthday
+    const birthdayDate = new Date("2024-03-15").getTime();
     const anniversaryDate = new Date("2024-12-28").getTime();
 
     const birthdayButton = document.getElementById("birthday-button");
@@ -22,7 +23,6 @@ function startCountdowns() {
     const interval = setInterval(() => {
         const now = new Date().getTime();
 
-        // Birthday Countdown
         const birthdayDistance = birthdayDate - now;
         const birthdayDays = Math.floor(birthdayDistance / (1000 * 60 * 60 * 24));
         const birthdayHours = Math.floor((birthdayDistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -39,7 +39,6 @@ function startCountdowns() {
             birthdayButton.classList.add("active");
         }
 
-        // Anniversary Countdown
         const anniversaryDistance = anniversaryDate - now;
         const anniversaryDays = Math.floor(anniversaryDistance / (1000 * 60 * 60 * 24));
         const anniversaryHours = Math.floor((anniversaryDistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -71,7 +70,6 @@ function goToNextPage(type) {
 
 // Back Button
 function goBack() {
-    console.log("goBack() function called");
     document.querySelectorAll(".next-page").forEach((page) => {
         page.style.display = "none";
     });
@@ -83,7 +81,7 @@ function goBack() {
 function showWishMessage() {
     document.getElementById("birthday-page").style.display = "none";
     document.getElementById("wish-message-page").style.display = "block";
-    document.getElementById("wish-text").style.display = "none"; // Hide wish text initially
+    document.getElementById("wish-text").style.display = "none";
 }
 
 // Show Our First Kiss Page
@@ -102,7 +100,6 @@ function showFavoriteSongs() {
 function showPhotoGallery() {
     document.getElementById("birthday-page").style.display = "none";
     document.getElementById("photo-gallery-page").style.display = "block";
-    initializeSlider(); // Initialize slider when gallery is shown
 }
 
 // Show Quiz Page
@@ -115,6 +112,7 @@ function showQuiz() {
 function showDateIdeas() {
     document.getElementById("birthday-page").style.display = "none";
     document.getElementById("date-ideas-page").style.display = "block";
+    filterDateIdeas('all');
 }
 
 // Show Our Story Page
@@ -148,15 +146,11 @@ function openEnvelope() {
     const letter = document.getElementById("letter-content");
     envelopeContainer.classList.toggle("open");
 
-    console.log("Envelope container open:", envelopeContainer.classList.contains("open"));
-
     if (envelopeContainer.classList.contains("open")) {
-        console.log("Opening envelope");
         document.getElementById("wish-text").style.display = "block";
         letter.classList.add("letter-open");
         createInnerConfetti();
     } else {
-        console.log("Closing envelope");
         document.getElementById("wish-text").style.display = "none";
         letter.classList.remove("letter-open");
         document.getElementById("inner-confetti-container").innerHTML = '';
@@ -177,29 +171,32 @@ function createInnerConfetti() {
 
 // Quiz Logic
 function checkAnswer(questionNumber) {
-    const answer = document.getElementById(`answer${questionNumber}`).value.toLowerCase();
-    let correctAnswer = "";
+  const answer = document
+    .getElementById(`answer${questionNumber}`)
+    .value.toLowerCase();
+  let correctAnswer = "";
 
-    if (questionNumber === 1) {
-        correctAnswer = "your answer"; // Replace with the correct answer
-    } else if (questionNumber === 2) {
-        correctAnswer = "your answer";
-    } else if (questionNumber === 3) {
-        correctAnswer = "your answer";
-    } else if (questionNumber === 4) {
-        correctAnswer = "your answer";
-    } else if (questionNumber === 5) {
-        correctAnswer = "your answer";
-    }
-    // Add more if statements for other questions
+  if (questionNumber === 1) {
+    correctAnswer = "your answer";
+  } else if (questionNumber === 2) {
+    correctAnswer = "your answer";
+  } else if (questionNumber === 3) {
+    correctAnswer = "your answer";
+  } else if (questionNumber === 4) {
+    correctAnswer = "your answer";
+  } else if (questionNumber === 5) {
+    correctAnswer = "your answer";
+  }
 
-    if (answer === correctAnswer) {
-        document.getElementById(`result${questionNumber}`).textContent = "Correct! 🎉";
-        document.getElementById(`result${questionNumber}`).style.color = "green";
-    } else {
-        document.getElementById(`result${questionNumber}`).textContent = "Incorrect. 😢";
-        document.getElementById(`result${questionNumber}`).style.color = "red";
-    }
+  if (answer === correctAnswer) {
+    document.getElementById(`result${questionNumber}`).textContent =
+      "Correct! 🎉";
+    document.getElementById(`result${questionNumber}`).style.color = "green";
+  } else {
+    document.getElementById(`result${questionNumber}`).textContent =
+      "Incorrect.😢";
+    document.getElementById(`result${questionNumber}`).style.color = "red";
+  }
 }
 
 // Slider Logic
@@ -209,79 +206,101 @@ let sliderContainer;
 let dotsContainer;
 
 function initializeSlider() {
-    slider = document.querySelector("#photo-gallery-page .slider");
-    sliderContainer = document.querySelector("#photo-gallery-page .slider-container");
-    dotsContainer = document.querySelector("#photo-gallery-page .slider-dots");
+  slider = document.querySelector("#photo-gallery-page .slider");
+  sliderContainer = document.querySelector(
+    "#photo-gallery-page .slider-container"
+  );
+  dotsContainer = document.querySelector("#photo-gallery-page .slider-dots");
 
-    // Create dots
-    for (let i = 0; i < slider.children.length; i++) {
-        const dot = document.createElement("div");
-        dot.className = "dot";
-        dot.addEventListener("click", () => goToSlide(i));
-        dotsContainer.appendChild(dot);
-    }
-    updateDots();
+  dotsContainer.innerHTML = "";
+
+  for (let i = 0; i < slider.children.length; i++) {
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.addEventListener("click", () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  }
+  updateDots();
 }
 
 function nextSlide() {
-    const maxSlide = slider.children.length - 1;
-    if (currentSlide < maxSlide) {
-        currentSlide++;
-        updateSlider();
-    }
+  const maxSlide = slider.children.length - 1;
+  if (currentSlide < maxSlide) {
+    currentSlide++;
+    updateSlider();
+  }
 }
 
 function prevSlide() {
-    if (currentSlide > 0) {
-        currentSlide--;
-        updateSlider();
-    }
+  if (currentSlide > 0) {
+    currentSlide--;
+    updateSlider();
+  }
 }
 
 function goToSlide(slideIndex) {
-    currentSlide = slideIndex;
-    updateSlider();
+  currentSlide = slideIndex;
+  updateSlider();
 }
 
 function updateSlider() {
-    const slideWidth = sliderContainer.offsetWidth;
-    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-    updateDots();
+  const slideWidth = sliderContainer.offsetWidth;
+  slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+  updateDots();
 }
 
 function updateDots() {
-    const dots = document.querySelectorAll("#photo-gallery-page .dot");
-    dots.forEach((dot, index) => {
-        if (index === currentSlide) {
-            dot.classList.add("active");
-        } else {
-            dot.classList.remove("active");
-        }
-    });
+  const dots = document.querySelectorAll("#photo-gallery-page .dot");
+  dots.forEach((dot, index) => {
+    if (index === currentSlide) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+  });
 }
 
 // Message Wall Logic
 function addMessage() {
-    const message = document.getElementById("guestbook-message").value;
-    if (message.trim() !== "") {
-        const messagesDiv = document.getElementById("messages");
-        const messageDiv = document.createElement("div");
-        messageDiv.className = "message";
-        messageDiv.textContent = message;
-        messagesDiv.appendChild(messageDiv);
-        document.getElementById("guestbook-message").value = ""; // Clear input
-    }
+  const message = document.getElementById("guestbook-message").value;
+  if (message.trim() !== "") {
+    const messagesDiv = document.getElementById("messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message";
+    messageDiv.textContent = message;
+    messagesDiv.appendChild(messageDiv);
+    document.getElementById("guestbook-message").value = "";
+  }
 }
 
 // History API Handling for Mobile Back Button
-window.addEventListener("popstate", function(event) {
-    console.log("popstate event triggered");
-    console.log(event);
-    if (document.querySelector(".next-page[style*='display: block;']")) {
-        goBack();
-    }
+window.addEventListener("popstate", function (event) {
+  if (document.querySelector(".next-page[style*='display: block;']")) {
+    goBack();
+  }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    history.pushState(null, null, document.URL);
+document.addEventListener("DOMContentLoaded", function () {
+  history.pushState(null, null, document.URL);
 });
+
+// Load Date Ideas
+function filterDateIdeas(category) {
+  const dateIdeas = document.querySelectorAll("#date-ideas-list .date-idea");
+  dateIdeas.forEach((idea) => {
+    if (category === "all" || idea.dataset.categories.includes(category)) {
+      idea.style.display = "block";
+    } else {
+      idea.style.display = "none";
+    }
+  });
+
+  const filterButtons = document.querySelectorAll(".filter-button");
+  filterButtons.forEach((button) => {
+    if (button.dataset.filter === category) {
+      button.classList.add("active");
+    } else {
+      button.classList.remove("active");
+    }
+  });
+}

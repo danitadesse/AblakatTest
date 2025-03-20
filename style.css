@@ -6,6 +6,8 @@
     --text: #4a4a4a;
     --white: #ffffff;
     --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    --font-main: 'Inter', sans-serif;
+    --font-script: 'Dancing Script', cursive;
 }
 
 * {
@@ -15,7 +17,7 @@
 }
 
 body {
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: var(--font-main);
     background: linear-gradient(45deg, #fff5f5, #ffe6f2);
     min-height: 100vh;
     display: flex;
@@ -248,7 +250,7 @@ body {
 
 /* Wish Message Page */
 .wish-text {
-    font-family: 'Dancing Script', cursive;
+    font-family: var(--font-script);
     font-size: 1.5rem;
     color: var(--text);
     text-align: left;
@@ -272,7 +274,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background:var(--primary);
+    background: var(--primary);
     clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%);
     transform-style: preserve-3d;
     transition: transform 0.5s ease;
@@ -301,7 +303,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Dancing Script', cursive;
+    font-family: var(--font-script);
     font-size: 1.5rem;
     color: var(--text);
     transition: transform 0.5s ease;
@@ -363,7 +365,7 @@ body {
 
 /* Our First Kiss Page */
 .memory-text {
-    font-family: 'Dancing Script', cursive;
+    font-family: var(--font-script);
     font-size: 1.5rem;
     color: var(--text);
     text-align: left;
@@ -401,7 +403,7 @@ body {
 }
 
 /* Photo Gallery Page (Chat History) */
-#photo-gallery-page .slider-container {
+.slider-container {
     width: 80%; /* Adjust width as needed */
     max-width: 600px; /* Maximum width */
     margin: 20px auto;
@@ -411,26 +413,26 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-#photo-gallery-page .slider {
+.slider {
     display: flex;
     transition: transform 0.5s ease;
 }
 
-#photo-gallery-page .slider img {
+.slider img {
     width: 100%;
     height: auto;
     flex-shrink: 0;
     border-radius: 10px;
 }
 
-#photo-gallery-page .slider-controls {
+.slider-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
 }
 
-#photo-gallery-page .slider-control {
+.slider-control {
     background: none;
     border: none;
     font-size: 2rem;
@@ -439,12 +441,12 @@ body {
     padding: 0 15px;
 }
 
-#photo-gallery-page .slider-dots {
+.slider-dots {
     display: flex;
     gap: 5px;
 }
 
-#photo-gallery-page .slider-dots .dot {
+.slider-dots .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -452,35 +454,256 @@ body {
     cursor: pointer;
 }
 
-#photo-gallery-page .slider-dots .dot.active {
+.slider-dots .dot.active {
     background: var(--primary);
 }
 
-.slider-nav {
+/* Quiz Page */
+.quiz-container {
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.quiz-container .question {
+    margin-bottom: 1.5rem;
+}
+
+.quiz-container input {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.quiz-container button {
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+/* Date Ideas Page */
+.date-ideas-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-button {
+    padding: 0.5rem 1rem;
+    background: var(--secondary);
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.filter-button.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.filter-button:hover {
+    background: var(--accent);
+}
+
+.date-ideas-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.date-idea {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.date-idea img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom:10px;
+}
+
+/* Our Story Page */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
     position: absolute;
     top: 0;
-    height: 100vh;
-    width: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: white;
-    opacity: 0.5;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--secondary);
+    transform: translateX(-50%);
 }
 
-.slider-nav:hover {
-    opacity: 1;
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    width: 50%;
 }
 
-.slider-nav.prev {
+.timeline-item:nth-child(odd) {
     left: 0;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+    padding-right: 30px;
+    text-align: right;
 }
 
-.slider-nav.next {
-    right: 0;
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+.timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 30px;
+}
+
+.timeline-date {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.timeline-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Guestbook Page */
+.guestbook textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.guestbook-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.guestbook-controls button {
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#emoji-picker {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#messages {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.message {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: confetti-fall 3s linear infinite;
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Birthday Page Specific Styles */
+.favorite-things {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.favorite-things ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.photo-collage .collage-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.photo-collage img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.birthday-card .card-container {
+    width: 200px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-radius: 10px;
+    margin: 20px auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.birthday-card .card {
+    width: 80%;
+    height: 80%;
+    background: var(--white);
+    border-radius: 5px;
+}
+
+#card-message {
+    margin-top: 10px;
+    font-weight: bold;
 }
